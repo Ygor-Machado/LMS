@@ -1,6 +1,7 @@
 @extends('admin.admin_dashboard')
 
 @section('admin')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <div class="page-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
@@ -10,7 +11,7 @@
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">User Profilep</li>
+                        <li class="breadcrumb-item active" aria-current="page">User Profile</li>
                     </ol>
                 </nav>
             </div>
@@ -95,7 +96,7 @@
                                         <h6 class="mb-0">Profile Image</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="file" name="photo" class="form-control"/>
+                                        <input type="file" name="photo" class="form-control" id="image"/>
                                     </div>
                                 </div>
 
@@ -104,7 +105,7 @@
                                         <h6 class="mb-0"> </h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <img src="{{ (!empty($profileData->photo)) ? url('upload/admin_images/'. $profileData->photo) : url('upload/no_image.jpg') }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="80">
+                                        <img id="showImages" src="{{ (!empty($profileData->photo)) ? url('upload/admin_images/'. $profileData->photo) : url('upload/no_image.jpg') }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="80">
                                     </div>
                                 </div>
 
@@ -120,5 +121,17 @@
                 </div>
             </div>
         </div>
-    </div
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#image').change(function(e){
+                let reader = new FileReader();
+                reader.onload = function(e){
+                    $('#showImages').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(e.target.files['0']);
+            });
+        });
+    </script>
 @endsection
